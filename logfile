@@ -1,0 +1,42 @@
+2026-05-25 18:46:07.629 PKT [33712] LOG:  starting PostgreSQL 16.14, compiled by Visual C++ build 1944, 64-bit
+2026-05-25 18:46:07.634 PKT [33712] LOG:  listening on IPv6 address "::1", port 5432
+2026-05-25 18:46:07.634 PKT [33712] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-05-25 18:46:07.675 PKT [11268] LOG:  database system was shut down at 2026-05-25 18:45:53 PKT
+2026-05-25 18:46:07.701 PKT [33712] LOG:  database system is ready to accept connections
+2026-05-25 18:51:07.688 PKT [28696] LOG:  checkpoint starting: time
+2026-05-25 18:52:57.947 PKT [28696] LOG:  checkpoint complete: wrote 1019 buffers (6.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=110.104 s, sync=0.147 s, total=110.260 s; sync files=310, longest=0.003 s, average=0.001 s; distance=4879 kB, estimate=4879 kB; lsn=0/1A3B508, redo lsn=0/1A3B4D0
+2026-05-25 22:21:08.341 PKT [28696] LOG:  checkpoint starting: time
+2026-05-25 22:21:09.344 PKT [28696] LOG:  checkpoint complete: wrote 9 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.987 s, sync=0.004 s, total=1.006 s; sync files=3, longest=0.002 s, average=0.002 s; distance=30 kB, estimate=4394 kB; lsn=0/1A42D40, redo lsn=0/1A42D08
+2026-05-25 22:26:10.197 PKT [36168] ERROR:  canceling statement due to user request
+2026-05-25 22:26:10.199 PKT [33712] LOG:  received fast shutdown request
+2026-05-25 22:26:10.200 PKT [33712] LOG:  aborting any active transactions
+2026-05-25 22:26:10.200 PKT [28968] FATAL:  terminating connection due to administrator command
+2026-05-25 22:26:10.209 PKT [33712] LOG:  background worker "logical replication launcher" (PID 36168) exited with exit code 1
+2026-05-25 22:26:10.215 PKT [28696] LOG:  shutting down
+2026-05-25 22:26:10.216 PKT [28696] LOG:  checkpoint starting: shutdown immediate
+2026-05-25 22:26:10.221 PKT [28696] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.007 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=3955 kB; lsn=0/1A42DF0, redo lsn=0/1A42DF0
+2026-05-25 22:26:10.230 PKT [33712] LOG:  database system is shut down
+2026-05-26 00:20:09.529 PKT [29900] LOG:  starting PostgreSQL 16.14, compiled by Visual C++ build 1944, 64-bit
+2026-05-26 00:20:09.533 PKT [29900] LOG:  listening on IPv6 address "::1", port 5432
+2026-05-26 00:20:09.533 PKT [29900] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-05-26 00:20:09.578 PKT [28984] LOG:  database system was shut down at 2026-05-25 22:26:10 PKT
+2026-05-26 00:20:09.626 PKT [29900] LOG:  database system is ready to accept connections
+2026-05-26 00:21:07.469 PKT [29900] LOG:  received fast shutdown request
+2026-05-26 00:21:07.471 PKT [29900] LOG:  aborting any active transactions
+2026-05-26 00:21:07.475 PKT [29900] LOG:  background worker "logical replication launcher" (PID 35224) exited with exit code 1
+2026-05-26 00:21:07.477 PKT [31384] LOG:  shutting down
+2026-05-26 00:21:07.478 PKT [31384] LOG:  checkpoint starting: shutdown immediate
+2026-05-26 00:21:07.493 PKT [31384] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.002 s, total=0.017 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A42EA0, redo lsn=0/1A42EA0
+2026-05-26 00:21:07.502 PKT [29900] LOG:  database system is shut down
+2026-05-26 00:21:26.124 PKT [30160] LOG:  starting PostgreSQL 16.14, compiled by Visual C++ build 1944, 64-bit
+2026-05-26 00:21:26.127 PKT [30160] LOG:  listening on IPv6 address "::1", port 5432
+2026-05-26 00:21:26.127 PKT [30160] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-05-26 00:21:26.169 PKT [32096] LOG:  database system was shut down at 2026-05-26 00:21:07 PKT
+2026-05-26 00:21:26.194 PKT [30160] LOG:  database system is ready to accept connections
+2026-05-26 00:26:26.173 PKT [41552] LOG:  checkpoint starting: time
+2026-05-26 00:26:26.510 PKT [41552] LOG:  checkpoint complete: wrote 6 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.327 s, sync=0.004 s, total=0.337 s; sync files=3, longest=0.002 s, average=0.002 s; distance=3 kB, estimate=3 kB; lsn=0/1A43E70, redo lsn=0/1A43E38
+2026-06-02 00:46:00.645 PKT [30160] LOG:  background worker "logical replication launcher" (PID 9124) was terminated by exception 0xC000013A
+2026-06-02 00:46:00.645 PKT [30160] HINT:  See C include file "ntstatus.h" for a description of the hexadecimal value.
+2026-06-02 00:46:00.657 PKT [30160] LOG:  terminating any other active server processes
+2026-06-02 00:46:00.722 PKT [30160] LOG:  all server processes terminated; reinitializing
+^C

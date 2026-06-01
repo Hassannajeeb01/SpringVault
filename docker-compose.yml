@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # 1. Local PostgreSQL Container for Hibernate Persistence
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: gridwars-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: gridwars
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: localpassword
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # 2. Local Redis Container for the Live Leaderboard
+  redis-cache:
+    image: redis:7-alpine
+    container_name: gridwars-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:
