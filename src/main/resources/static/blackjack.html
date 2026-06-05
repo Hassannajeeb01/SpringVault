@@ -326,7 +326,7 @@
     </div>
 
     <div class="new-game-row">
-      <button onclick="resetGame()">new game</button>
+      <button onclick="startGame()">new game</button>
     </div>
 
   </div>
@@ -446,7 +446,8 @@
   }
 
   async function startGame() {
-    const name = document.getElementById('player-name').value.trim();
+    let name = document.getElementById('player-name').value.trim();
+    if (!name) name = playerName;
     if (!name) {
       document.getElementById('setup-error').textContent = 'please enter a name';
       return;

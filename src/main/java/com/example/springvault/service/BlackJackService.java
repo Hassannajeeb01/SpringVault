@@ -58,6 +58,11 @@ public class BlackJackService {
             // update gamestate with winner if there is one
             gameState.setWinner(analyzeGame(gameState));
 
+            // if player bust on their turn, flip dealer card
+            if (gameState.getWinner() == Winner.DEALER && gameState.getTurn() == Turn.PLAYER) {
+                gameState.getDealer().getCards().get(0).setFaceDown(false);
+            }
+
             return new GameResponseDTO(gameState);
         }
 
