@@ -4,15 +4,30 @@ import java.util.ArrayList;
 
 public class Participant {
 
+    private final String name;
     private final boolean isDealer;
     private ArrayList<Card> cards;
+
+    public Participant(String name) {
+        this.isDealer = false;
+        this.cards = new ArrayList<>();
+        this.name = name;
+        
+    }
 
     public Participant(boolean isDealer) {
         this.isDealer = isDealer;
         this.cards = new ArrayList<>();
+        this.name = "Dealer";
     }
 
+
     // Getters
+
+    public String getName() {
+        return name;
+    }
+
     public boolean isDealer() {
         return isDealer;
     }

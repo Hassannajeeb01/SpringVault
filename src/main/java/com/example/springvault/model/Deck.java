@@ -20,7 +20,7 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
-    public Card deal() {
+    public Card drawCard() {
         if (cards.isEmpty()) {
             throw new IllegalStateException("Deck is empty");
         }

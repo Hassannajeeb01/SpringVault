@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blackjack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --border: #e2e0da;
+    --text: #1a1916;
+    --muted: #888580;
+    --accent: #1a1916;
+    --red: #c0392b;
+    --card-w: 58px;
+    --card-h: 82px;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 520px;
+    padding: 2rem 1.5rem;
+  }
+
+  .header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 2.5rem;
+  }
+
+  .header h1 {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .header span {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Setup */
+  .setup { animation: fadeIn 0.3s ease; }
+
+  .setup label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .setup-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .setup-row input {
+    flex: 1;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 0 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .setup-row input:focus { border-color: var(--text); }
+
+  /* Buttons */
+  button {
+    height: 44px;
+    padding: 0 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, transform 0.08s;
+  }
+
+  button:hover { background: #f0ede8; border-color: #ccc; }
+  button:active { transform: scale(0.97); }
+
+  button.primary {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+
+  button.primary:hover { background: #333; }
+  button:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* Game screen */
+  .game { display: none; animation: fadeIn 0.3s ease; }
+
+  .participant-section { margin-bottom: 1.75rem; }
+
+  .participant-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .participant-name {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .hand-total {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+  }
+
+  .hand {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    min-height: var(--card-h);
+    align-items: flex-start;
+  }
+
+  /* Cards */
+  .card {
+    width: var(--card-w);
+    height: var(--card-h);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    animation: dealCard 0.25s ease;
+    position: relative;
+  }
+
+  .card .suit {
+    font-size: 18px;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .card.red { color: var(--red); }
+  .card.black { color: var(--text); }
+
+  .card.face-down {
+    background: var(--bg);
+    border: 1px dashed var(--border);
+  }
+
+  .card.face-down::after {
+    content: '—';
+    font-size: 20px;
+    color: var(--border);
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  /* Status */
+  .status-row {
+    min-height: 28px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status {
+    font-size: 14px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .winner {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 1.25rem;
+    min-height: 28px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .new-game-row { margin-top: 0.5rem; }
+
+  /* Dot pulse loader */
+  .dot-pulse {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .dot-pulse span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: pulse 1.2s infinite;
+  }
+
+  .dot-pulse span:nth-child(2) { animation-delay: 0.2s; }
+  .dot-pulse span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes pulse {
+    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes dealCard {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Error */
+  .error-msg {
+    font-size: 13px;
+    color: var(--red);
+    font-family: 'DM Mono', monospace;
+    margin-top: 8px;
+    min-height: 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>blackjack</h1>
+    <span>v1.0</span>
+  </div>
+
+  <!-- Setup -->
+  <div class="setup" id="setup">
+    <label>your name</label>
+    <div class="setup-row">
+      <input type="text" id="player-name" placeholder="enter name" maxlength="24" />
+      <button class="primary" onclick="startGame()">deal</button>
+    </div>
+    <div class="error-msg" id="setup-error"></div>
+  </div>
+
+  <!-- Game -->
+  <div class="game" id="game">
+
+    <div class="participant-section">
+      <div class="participant-header">
+        <span class="participant-name">dealer</span>
+        <span class="hand-total" id="dealer-total"></span>
+      </div>
+      <div class="hand" id="dealer-hand"></div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="participant-section">
+      <div class="participant-header">
+        <span class="participant-name" id="player-label">player</span>
+        <span class="hand-total" id="player-total"></span>
+      </div>
+      <div class="hand" id="player-hand"></div>
+    </div>
+
+    <div class="status-row">
+      <div class="status" id="status"></div>
+      <div class="dot-pulse" id="loader" style="display:none">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="winner" id="winner"></div>
+
+    <div class="actions" id="actions">
+      <button class="primary" onclick="hit()">hit</button>
+      <button onclick="stand()">stand</button>
+    </div>
+
+    <div class="new-game-row">
+      <button onclick="resetGame()">new game</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const BASE = 'http://localhost:8080';
+  let gameId = null;
+  let dealerRunning = false;
+  let playerName = 'player';
+
+  function suitSymbol(suit) {
+    return { Hearts: '♥', Diamonds: '♦', Clubs: '♣', Spades: '♠' }[suit] || suit;
+  }
+
+  function isRed(suit) {
+    return suit === 'Hearts' || suit === 'Diamonds';
+  }
+
+  function makeCard(card) {
+    const div = document.createElement('div');
+    if (card.faceDown) {
+      div.className = 'card face-down';
+    } else {
+      div.className = 'card ' + (isRed(card.suit) ? 'red' : 'black');
+      const rank = document.createElement('span');
+      rank.textContent = card.rank;
+      const suit = document.createElement('span');
+      suit.className = 'suit';
+      suit.textContent = suitSymbol(card.suit);
+      div.appendChild(rank);
+      div.appendChild(suit);
+    }
+    return div;
+  }
+
+  function renderHand(id, cards) {
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    cards.forEach(c => el.appendChild(makeCard(c)));
+  }
+
+  function visibleTotal(cards) {
+    return cards.filter(c => !c.faceDown).reduce((s, c) => s + c.value, 0);
+  }
+
+  function setLoader(on) {
+    document.getElementById('loader').style.display = on ? 'flex' : 'none';
+  }
+
+  function setActions(show) {
+    document.getElementById('actions').style.display = show ? 'flex' : 'none';
+  }
+
+  function updateUI(data) {
+    renderHand('player-hand', data.playerCards);
+    renderHand('dealer-hand', data.dealerCards);
+
+    const pv = visibleTotal(data.playerCards);
+    const dv = visibleTotal(data.dealerCards);
+    document.getElementById('player-total').textContent = pv;
+    document.getElementById('dealer-total').textContent = dv > 0 ? dv : '';
+
+    const winner = data.winner;
+    const turn = data.turn;
+    const winnerEl = document.getElementById('winner');
+    const statusEl = document.getElementById('status');
+
+    winnerEl.textContent = '';
+    statusEl.textContent = '';
+
+    if (winner === 'PLAYER') {
+      winnerEl.textContent = 'you win.';
+      setActions(false);
+      setLoader(false);
+    } else if (winner === 'DEALER') {
+      winnerEl.textContent = 'dealer wins.';
+      setActions(false);
+      setLoader(false);
+    } else if (winner === 'PUSH') {
+      winnerEl.textContent = "push — it's a tie.";
+      setActions(false);
+      setLoader(false);
+    } else if (turn === 'DEALER') {
+      statusEl.textContent = "dealer's turn";
+      setActions(false);
+      setLoader(true);
+      if (!dealerRunning) runDealerTurn();
+    } else {
+      statusEl.textContent = 'your turn';
+      setActions(true);
+      setLoader(false);
+    }
+  }
+
+  async function runDealerTurn() {
+    dealerRunning = true;
+    let done = false;
+    while (!done) {
+      await new Promise(r => setTimeout(r, 900));
+      try {
+        const res = await fetch(BASE + '/hit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: gameId
+        });
+        const data = await res.json();
+        updateUI(data);
+        if (data.winner !== 'NONE' || data.turn !== 'DEALER') done = true;
+      } catch(e) {
+        document.getElementById('status').textContent = 'connection error';
+        setLoader(false);
+        done = true;
+      }
+    }
+    dealerRunning = false;
+  }
+
+  async function startGame() {
+    const name = document.getElementById('player-name').value.trim();
+    if (!name) {
+      document.getElementById('setup-error').textContent = 'please enter a name';
+      return;
+    }
+    playerName = name;
+    document.getElementById('setup-error').textContent = '';
+
+    try {
+      const res = await fetch(BASE + '/startGame', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(name)
+      });
+      const data = await res.json();
+      gameId = data.gameID;
+      document.getElementById('player-label').textContent = name.toLowerCase();
+      document.getElementById('setup').style.display = 'none';
+      document.getElementById('game').style.display = 'block';
+      document.getElementById('winner').textContent = '';
+      updateUI(data);
+    } catch(e) {
+      document.getElementById('setup-error').textContent = 'could not connect to server';
+    }
+  }
+
+  async function hit() {
+    setActions(false);
+    try {
+      const res = await fetch(BASE + '/hit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: gameId
+      });
+      const data = await res.json();
+      updateUI(data);
+    } catch(e) {
+      document.getElementById('status').textContent = 'connection error';
+      setActions(true);
+    }
+  }
+
+  async function stand() {
+    setActions(false);
+    try {
+      const res = await fetch(BASE + '/stand', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: gameId
+      });
+      const data = await res.json();
+      updateUI(data);
+    } catch(e) {
+      document.getElementById('status').textContent = 'connection error';
+    }
+  }
+
+  function resetGame() {
+    gameId = null;
+    dealerRunning = false;
+    document.getElementById('game').style.display = 'none';
+    document.getElementById('setup').style.display = 'block';
+    document.getElementById('player-name').value = '';
+    document.getElementById('winner').textContent = '';
+    document.getElementById('status').textContent = '';
+  }
+
+  document.getElementById('player-name').addEventListener('keydown', e => {
+    if (e.key === 'Enter') startGame();
+  });
+</script>
+</body>
+</html>

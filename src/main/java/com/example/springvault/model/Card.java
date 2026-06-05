@@ -3,10 +3,10 @@ package com.example.springvault.model;
 import java.util.Map;
 
 public class Card {
-    
+
     private final String suit;
     private final String rank;
-    private boolean isFaceDown = true;
+    private boolean isFaceDown;
 
     // Map for stroring the value of the card
     private static final Map<String, Integer> cardValues = Map.ofEntries(
@@ -34,7 +34,7 @@ public class Card {
     }
 
     public Card(String suit, String rank) {
-    this(suit, rank, true);
+    this(suit, rank, false);
 }
 
     // Getters
@@ -46,7 +46,7 @@ public class Card {
         return rank;
     }
 
-    public boolean isFaceDown   () {
+    public boolean isFaceDown() {
         return isFaceDown;
     }
 
@@ -55,8 +55,9 @@ public class Card {
     }
 
     // Setters
-    public void setFaceDown(boolean isFaceDown) {
+    public Card setFaceDown(boolean isFaceDown) {
         this.isFaceDown = isFaceDown;
+        return this;
     }
 
     @Override
