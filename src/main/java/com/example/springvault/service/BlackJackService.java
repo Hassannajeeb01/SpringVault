@@ -11,6 +11,8 @@ import com.example.springvault.model.*;
 import com.example.springvault.model.GameState.Turn;
 import com.example.springvault.model.GameState.Winner;
 
+import jakarta.servlet.http.Part;
+
 @Service
 public class BlackJackService {
         private final ConcurrentHashMap<String, GameState> games = new ConcurrentHashMap<>(); // String is gameID
@@ -88,20 +90,21 @@ public class BlackJackService {
             // if player, 
                 // check if == 21, player wins
                 // if > 21 bust i.e dealer wins
+            int playerHandValue = calculateHandValue(gameState.getPlayer());
+            int dealerHandValue = calculateHandValue(gameState.getDealer());
+
             if (gameState.getTurn() == Turn.PLAYER) {
-                if (gameState.getPlayer().getHandValue() == 21) {
+                if (playerHandValue == 21) {
                     return Winner.PLAYER;
                 }
-                else if (gameState.getPlayer().getHandValue() > 21) {
+                else if (playerHandValue > 21) {
                     return Winner.DEALER;
                 }
                 else {
                     return Winner.NONE;
                 }
             }
-            if (gameState.getTurn() == Turn.DEALER) {
-                int dealerHandValue = gameState.getDealer().getHandValue();
-                int playerHandValue = gameState.getPlayer().getHandValue();
+            else if (gameState.getTurn() == Turn.DEALER) {
 
                 if (dealerHandValue > 21) {
                     return Winner.PLAYER;
@@ -123,4 +126,17 @@ public class BlackJackService {
             return Optional.ofNullable(games.get(gameID))
                 .orElseThrow(() -> new GameNotFoundException(gameID));
         }
+
+        private int calculateHandValue(Participant participant) {
+            int handValue = participant.getHandValue();
+            int aces = participant.getAces();
+
+            while (aces > 0 && handValue > 21) {
+                handValue = handValue - 10; // initially aces are counted as 11, subtract 10 to make it 1
+                aces --;
+            }
+
+            return handValue;
+        }
 }
+
