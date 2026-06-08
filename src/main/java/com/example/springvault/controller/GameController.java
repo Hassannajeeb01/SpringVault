@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 @CrossOrigin(origins = "*")
 @RestController
 public class GameController {
-    @Autowired
-    private BlackJackService blackJackService;
+    private final BlackJackService blackJackService;
+
+    public GameController(BlackJackService blackJackService) {
+        this.blackJackService = blackJackService;
+    }
+
 
     @PostMapping("/startGame")
     public GameResponseDTO startGame(@RequestBody String playerName) {
