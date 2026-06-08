@@ -1,23 +1,5 @@
 spring:
   application:
     name: springVault
-
-  # 🗄️ PostgreSQL Persistence Layer Configuration
-  datasource:
-    url: jdbc:postgresql://localhost:5432/springvault
-    username: postgres
-    password: "" # Blank because we initialized with --auth-local=trust
-    driver-class-name: org.postgresql.Driver
-  
-  # ☕ Hibernate Object-Relational Mapping Settings
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update # Automatically creates database tables matching your Java entities
-    show-sql: true     # Prints clean SQL statements to your console for easier debugging
-
-  # ⚡ Redis Cache / Live Leaderboard Configuration
-  data:
-    redis:
-      host: localhost
-      port: 6379       # Matches your native portable redis-server port
+  profiles:
+    active: local

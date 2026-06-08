@@ -5,3 +5,6 @@ Dependencies:
     Installations:
         Redis 5.0.14.1
         Psql 16
+
+Deployment:
+    https://springvault-production.up.railway.app/blackjack.html

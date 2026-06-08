@@ -1,10 +1,12 @@
 package com.example.springvault.service;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
+import com.example.springvault.exception.GameNotFoundException;
 import com.example.springvault.model.*;
 import com.example.springvault.model.GameState.Turn;
 import com.example.springvault.model.GameState.Winner;
@@ -42,7 +44,7 @@ public class BlackJackService {
         }
 
         public GameResponseDTO hit (String gameID) {
-            GameState gameState = games.get(gameID);
+            GameState gameState = getGameState(gameID);
 
             if (gameState.getTurn() == Turn.PLAYER){
                 // Deck.drawCard()
@@ -67,7 +69,7 @@ public class BlackJackService {
         }
 
         public GameResponseDTO stand (String gameID) {
-            GameState gameState = games.get(gameID); 
+            GameState gameState = getGameState(gameID);
 
             // AnalyzeGame and update gamestate
             gameState.setWinner(analyzeGame(gameState));
@@ -115,5 +117,10 @@ public class BlackJackService {
                 }
             }
             return Winner.NONE;
+        }
+
+        private GameState getGameState(String gameID) {
+            return Optional.ofNullable(games.get(gameID))
+                .orElseThrow(() -> new GameNotFoundException(gameID));
         }
 }
