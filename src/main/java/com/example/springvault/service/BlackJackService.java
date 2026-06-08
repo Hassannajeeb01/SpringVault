@@ -11,8 +11,6 @@ import com.example.springvault.model.*;
 import com.example.springvault.model.GameState.Turn;
 import com.example.springvault.model.GameState.Winner;
 
-import jakarta.servlet.http.Part;
-
 @Service
 public class BlackJackService {
         private final ConcurrentHashMap<String, GameState> games = new ConcurrentHashMap<>(); // String is gameID
@@ -85,7 +83,7 @@ public class BlackJackService {
             return new GameResponseDTO(gameState);
         }
 
-        private Winner analyzeGame(GameState gameState) {
+        public Winner analyzeGame(GameState gameState) {
             // check whose turn it is
             // if player, 
                 // check if == 21, player wins
@@ -127,7 +125,7 @@ public class BlackJackService {
                 .orElseThrow(() -> new GameNotFoundException(gameID));
         }
 
-        private int calculateHandValue(Participant participant) {
+        public int calculateHandValue(Participant participant) {
             int handValue = participant.getHandValue();
             int aces = participant.getAces();
 
