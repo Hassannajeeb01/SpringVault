@@ -333,11 +333,18 @@
 </div>
 
 <script>
-  // const BASE = 'http://localhost:8080'; // this is for hosting locally
-  const BASE = 'https://springvault-production.up.railway.app';
+  const BASE = window.location.hostname === 'localhost' 
+    ? 'http://localhost:8080' 
+    : 'https://springvault-production.up.railway.app';
   let gameId = null;
   let dealerRunning = false;
   let playerName = 'player';
+
+  let sessionId = localStorage.getItem('sessionId');
+  if (!sessionId) {
+      sessionId = crypto.randomUUID();
+      localStorage.setItem('sessionId', sessionId);
+  }
 
   function suitSymbol(suit) {
     return { Hearts: '♥', Diamonds: '♦', Clubs: '♣', Spades: '♠' }[suit] || suit;
@@ -431,7 +438,7 @@
       try {
         const res = await fetch(BASE + '/hit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json'},
           body: gameId
         });
         const data = await res.json();
@@ -459,7 +466,7 @@
     try {
       const res = await fetch(BASE + '/startGame', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' , 'X-Session-Id': sessionId},
         body: JSON.stringify(name)
       });
       const data = await res.json();
@@ -479,7 +486,7 @@
     try {
       const res = await fetch(BASE + '/hit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json'},
         body: gameId
       });
       const data = await res.json();
@@ -495,7 +502,7 @@
     try {
       const res = await fetch(BASE + '/stand', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json'},
         body: gameId
       });
       const data = await res.json();

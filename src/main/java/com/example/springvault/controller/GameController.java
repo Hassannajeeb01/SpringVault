@@ -8,6 +8,8 @@ import com.example.springvault.service.BlackJackService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 @CrossOrigin(origins = "*")
@@ -21,13 +23,13 @@ public class GameController {
 
 
     @PostMapping("/startGame")
-    public GameResponseDTO startGame(@RequestBody String playerName) {
-        return blackJackService.startGame(playerName);
+    public GameResponseDTO startGame(@RequestBody String playerName,  @RequestHeader("X-Session-Id") String sessionId) {
+        return blackJackService.startGame(playerName, sessionId);
     }
 
     @PostMapping("/hit")
-    public GameResponseDTO hit(@RequestBody String gameId) {
-        return blackJackService.hit(gameId);
+    public GameResponseDTO hit(@RequestBody String gameID) {
+        return blackJackService.hit(gameID);
     }
 
     @PostMapping("/stand")

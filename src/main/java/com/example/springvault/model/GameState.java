@@ -6,6 +6,7 @@ public class GameState {
     private Participant dealer;
     private Deck deck;
     private String gameID;
+    private String sessionID;
     private Turn turn;
     private Winner winner;
 
@@ -17,8 +18,11 @@ public class GameState {
         PLAYER, DEALER, PUSH, NONE
     }
 
-    public GameState(String gameID, Deck deck, Participant player, Participant dealer, Turn turn) {
+    public GameState() {} // for jackson
+
+    public GameState(String gameID, String sessionID, Deck deck, Participant player, Participant dealer, Turn turn) {
         this.gameID = gameID;
+        this.sessionID = sessionID;
         this.deck = deck;
         this.player = player;
         this.dealer = dealer;
@@ -57,6 +61,14 @@ public class GameState {
 
     public void setGameID(String gameID) {
         this.gameID = gameID;
+    }
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
     }
 
     public Turn getTurn() {

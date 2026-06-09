@@ -8,16 +8,19 @@ import com.example.springvault.model.Participant;
 import com.example.springvault.service.BlackJackService;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.data.redis.core.RedisTemplate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BlackJackServiceTest {
 
-    BlackJackService service = new BlackJackService();
+	RedisTemplate<String, GameState> redisTemplate = new RedisTemplate<>();
+    BlackJackService service = new BlackJackService(redisTemplate);
 
     @Test
     void playerBusts_dealerWins() {
         // Arrange
-		GameState gameState = new GameState("testID", null, new Participant("John Doe"), 
+		GameState gameState = new GameState("testID", "Session 1", null, new Participant("John Doe"), 
 			new Participant(true), Turn.PLAYER);
         
         gameState.getPlayer().addCard(new Card("Hearts", "K"));
@@ -35,7 +38,7 @@ class BlackJackServiceTest {
 	@Test
 	void tie() {
 		// Arrange
-		GameState gameState = new GameState("Test", null, new Participant("John Doe"), 
+		GameState gameState = new GameState("Test", "Session 1", null, new Participant("John Doe"), 
 			new Participant(true), Turn.DEALER);
 
 		gameState.getPlayer().addCard(new Card("Hearts", "K"));

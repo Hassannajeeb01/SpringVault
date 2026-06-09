@@ -2,10 +2,13 @@ package com.example.springvault.model;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Card {
 
-    private final String suit;
-    private final String rank;
+    private String suit;
+    private String rank;
     private boolean isFaceDown;
 
     // Map for stroring the value of the card
@@ -27,6 +30,8 @@ public class Card {
 
     // Constructors
     // Default
+    public Card() {} // for Jackson/Redis
+
     public Card(String suit, String rank, boolean isFaceDown) {
         this.suit = suit;
         this.rank = rank;
@@ -34,10 +39,11 @@ public class Card {
     }
 
     public Card(String suit, String rank) {
-    this(suit, rank, false);
-}
+        this(suit, rank, false);
+    }
 
     // Getters
+
     public String getSuit() {
         return suit;
     }
@@ -46,15 +52,25 @@ public class Card {
         return rank;
     }
 
-    public boolean isFaceDown() {
-        return isFaceDown;
-    }
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public int getValue() {
         return cardValues.get(this.rank);
     }
 
+    public boolean isFaceDown() {
+        return isFaceDown;
+    }
+
     // Setters
+
+    public void setSuit(String suit) {
+        this.suit = suit;
+    }
+ 
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
     public Card setFaceDown(boolean isFaceDown) {
         this.isFaceDown = isFaceDown;
         return this;

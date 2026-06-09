@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.springvault.exception.GameNotFoundException;
@@ -13,9 +14,14 @@ import com.example.springvault.model.GameState.Winner;
 
 @Service
 public class BlackJackService {
-        private final ConcurrentHashMap<String, GameState> games = new ConcurrentHashMap<>(); // String is gameID
+        // private final ConcurrentHashMap<String, GameState> games = new ConcurrentHashMap<>(); // String is gameID
+        private final RedisTemplate<String, GameState> redisTemplate;
+        
+        public BlackJackService (RedisTemplate<String, GameState> redisTemplate) {
+            this.redisTemplate = redisTemplate;
+        }
 
-        public GameResponseDTO startGame(String playerName) {
+        public GameResponseDTO startGame(String playerName, String sessionID) {
             // Initialize a player participant with player name
             Participant player = new Participant(playerName);
 
@@ -23,7 +29,7 @@ public class BlackJackService {
             Participant dealer = new Participant(false);
 
             // Init a deck
-            Deck deck = new Deck();
+            Deck deck = Deck.newDeck();
 
             // Deal cards to both participants, keeping one of the dealers card faceup
             player.addCard(deck.drawCard());
@@ -35,10 +41,11 @@ public class BlackJackService {
 
             // init gameState, generate gameid, add it to games
             String gameID = UUID.randomUUID().toString();
-            GameState gameState = new GameState(gameID, deck, player, dealer, Turn.PLAYER);
+            GameState gameState = new GameState(gameID, sessionID, deck, player, dealer, Turn.PLAYER);
 
             // add gamestate to the games
-            games.put(gameID, gameState);
+            // games.put(gameID, gameState);
+            redisTemplate.opsForValue().set("Game: " + gameID, gameState);
 
             return new GameResponseDTO(gameState);
         }
@@ -65,6 +72,8 @@ public class BlackJackService {
                 gameState.getDealer().getCards().get(0).setFaceDown(false);
             }
 
+            redisTemplate.opsForValue().set("Game: " + gameID, gameState);
+
             return new GameResponseDTO(gameState);
         }
 
@@ -79,6 +88,8 @@ public class BlackJackService {
 
             // flip the dealer card
             gameState.getDealer().getCards().get(0).setFaceDown(false);
+
+            redisTemplate.opsForValue().set("Game: " + gameID, gameState);
 
             return new GameResponseDTO(gameState);
         }
@@ -121,7 +132,10 @@ public class BlackJackService {
         }
 
         private GameState getGameState(String gameID) {
-            return Optional.ofNullable(games.get(gameID))
+            // return Optional.ofNullable(games.get(gameID))
+                // .orElseThrow(() -> new GameNotFoundException(gameID));
+
+            return Optional.ofNullable(redisTemplate.opsForValue().get("Game: " + gameID))
                 .orElseThrow(() -> new GameNotFoundException(gameID));
         }
 
