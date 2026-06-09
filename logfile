@@ -39,4 +39,60 @@
 2026-06-02 00:46:00.645 PKT [30160] HINT:  See C include file "ntstatus.h" for a description of the hexadecimal value.
 2026-06-02 00:46:00.657 PKT [30160] LOG:  terminating any other active server processes
 2026-06-02 00:46:00.722 PKT [30160] LOG:  all server processes terminated; reinitializing
-^C
+^C2026-06-10 01:50:40.371 PKT [51676] LOG:  starting PostgreSQL 16.14, compiled by Visual C++ build 1944, 64-bit
+2026-06-10 01:50:40.375 PKT [51676] LOG:  listening on IPv6 address "::1", port 5432
+2026-06-10 01:50:40.375 PKT [51676] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-06-10 01:50:40.421 PKT [36300] LOG:  database system was interrupted; last known up at 2026-05-26 00:26:26 PKT
+2026-06-10 01:50:44.185 PKT [36300] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-06-10 01:50:44.187 PKT [36300] LOG:  redo starts at 0/1A43E38
+2026-06-10 01:50:44.187 PKT [36300] LOG:  invalid record length at 0/1A43F20: expected at least 24, got 0
+2026-06-10 01:50:44.187 PKT [36300] LOG:  redo done at 0/1A43EE8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2026-06-10 01:50:44.191 PKT [37112] LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-06-10 01:50:44.196 PKT [37112] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.008 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1A43F20, redo lsn=0/1A43F20
+2026-06-10 01:50:44.225 PKT [51676] LOG:  database system is ready to accept connections
+2026-06-10 01:55:44.196 PKT [37112] LOG:  checkpoint starting: time
+2026-06-10 01:55:48.539 PKT [37112] LOG:  checkpoint complete: wrote 40 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.321 s, sync=0.017 s, total=4.344 s; sync files=34, longest=0.002 s, average=0.001 s; distance=148 kB, estimate=148 kB; lsn=0/1A69188, redo lsn=0/1A69150
+2026-06-10 01:58:23.557 PKT [50472] ERROR:  syntax error at or near "/" at character 1
+2026-06-10 01:58:23.557 PKT [50472] STATEMENT:  /l
+	select * from leaderboard
+	SELECT COUNT(*) FROM leaderboard;
+2026-06-10 02:44:13.024 PKT [46388] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.024 PKT [49768] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.024 PKT [23880] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.024 PKT [38972] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.025 PKT [39016] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.025 PKT [49836] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.025 PKT [6772] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.025 PKT [38372] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.025 PKT [26552] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:44:13.025 PKT [17292] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.764 PKT [30468] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.764 PKT [49740] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.764 PKT [35776] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.765 PKT [50088] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.764 PKT [41348] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.765 PKT [35916] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.765 PKT [37160] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.765 PKT [29112] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.765 PKT [48636] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-10 02:46:50.765 PKT [51076] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	

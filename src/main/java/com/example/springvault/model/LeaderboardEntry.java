@@ -1,0 +1,69 @@
+package com.example.springvault.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Leaderboard")
+public class LeaderboardEntry {
+    
+    @Id
+    private String sessionID; // unique player
+
+    private String playerName;
+    private int totalGames;
+    private int totalPoints;
+    private double pointsPerGame;
+
+    public LeaderboardEntry() {} // for JPA / jackson
+
+    public LeaderboardEntry(String sessionID, String playerName) {
+        this.sessionID = sessionID;
+        this.playerName = playerName;
+        totalGames = 0;
+        totalPoints = 0;
+        pointsPerGame = 0;
+    }
+
+    public double getPointsPergame() {
+        return pointsPerGame;
+    }
+
+    public void setPointsPergame(double pointsPerGame) {
+        this.pointsPerGame = pointsPerGame;
+    }
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public int getTotalGames() {
+        return totalGames;
+    }
+
+    public void setTotalGames(int totalGames) {
+        this.totalGames = totalGames;
+    }
+
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
+    }
+
+}

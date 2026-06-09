@@ -13,7 +13,7 @@ Init:
 
 How to run:
     Start Postgres server:
-        C:\Users\hassan.najeeb\Desktop\SpringVault\dependencies\postgres\pgsql\bin\pg_ctl.exe -D "C:\Users\hassan.najeeb\Desktop\SpringVault\dependencies\pgdata" -l logfile start
+        C:\Users\hassan.najeeb\Desktop\dependencies\postgres\pgsql\bin\pg_ctl.exe -D "C:\Users\hassan.najeeb\Desktop\dependencies\pgdata" -l logfile start
     Start Redis server:
         C:\Users\hassan.najeeb\Desktop\SpringVault\dependencies\Redis> .\redis-server.exe
     Start Spring app:
@@ -29,7 +29,7 @@ How to test:
     Postgres:
         Test-NetConnection -ComputerName localhost -Port 5432 
         OR
-        C:\Users\hassan.najeeb\Desktop\SpringVault\dependencies\postgres\pgsql\bin\psql.exe -U postgres -d springvault
+        C:\Users\hassan.najeeb\Desktop\dependencies\postgres\pgsql\bin\psql.exe -U postgres -d springvault
 
         Add your connection as localhost on the psql explorer to see your tables
     Redis:

@@ -57,6 +57,17 @@
     font-family: 'DM Mono', monospace;
   }
 
+  .header-right {
+    margin-left: auto;
+  }
+
+  .header-right button {
+    height: 32px;
+    padding: 0 14px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+
   /* Setup */
   .setup { animation: fadeIn 0.3s ease; }
 
@@ -269,6 +280,72 @@
     margin-top: 8px;
     min-height: 18px;
   }
+
+  /* Leaderboard */
+  .leaderboard { display: none; animation: fadeIn 0.3s ease; }
+
+  .leaderboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .leaderboard-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .leaderboard table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .leaderboard th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: left;
+    padding: 0 0 10px 0;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .leaderboard th:not(:first-child) { text-align: right; }
+
+  .leaderboard td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+
+  .leaderboard td:not(:first-child) { text-align: right; }
+
+  .leaderboard tr:last-child td { border-bottom: none; }
+
+  .leaderboard .rank {
+    color: var(--muted);
+    width: 24px;
+  }
+
+  .leaderboard-empty {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 1.5rem 0;
+  }
+
+  .leaderboard-note {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-top: 1rem;
+  }
 </style>
 </head>
 <body>
@@ -278,6 +355,9 @@
   <div class="header">
     <h1>blackjack</h1>
     <span>v1.0</span>
+    <div class="header-right">
+      <button onclick="toggleLeaderboard()">leaderboard</button>
+    </div>
   </div>
 
   <!-- Setup -->
@@ -330,6 +410,17 @@
     </div>
 
   </div>
+
+  <!-- Leaderboard -->
+  <div class="leaderboard" id="leaderboard">
+    <div class="leaderboard-header">
+      <span class="leaderboard-title">leaderboard</span>
+      <button onclick="toggleLeaderboard()">back</button>
+    </div>
+    <div id="leaderboard-content"></div>
+    <div class="leaderboard-note">min. 10 games to appear</div>
+  </div>
+
 </div>
 
 <script>
@@ -339,6 +430,7 @@
   let gameId = null;
   let dealerRunning = false;
   let playerName = 'player';
+  let previousScreen = 'setup'; // track where to go back to
 
   let sessionId = localStorage.getItem('sessionId');
   if (!sessionId) {
@@ -387,6 +479,68 @@
 
   function setActions(show) {
     document.getElementById('actions').style.display = show ? 'flex' : 'none';
+  }
+
+  function showScreen(name) {
+    document.getElementById('setup').style.display = 'none';
+    document.getElementById('game').style.display = 'none';
+    document.getElementById('leaderboard').style.display = 'none';
+    if (name === 'setup') document.getElementById('setup').style.display = 'block';
+    if (name === 'game') document.getElementById('game').style.display = 'block';
+    if (name === 'leaderboard') document.getElementById('leaderboard').style.display = 'block';
+  }
+
+  async function toggleLeaderboard() {
+    const lb = document.getElementById('leaderboard');
+    if (lb.style.display === 'block') {
+      showScreen(previousScreen);
+      return;
+    }
+    previousScreen = document.getElementById('game').style.display === 'block' ? 'game' : 'setup';
+    showScreen('leaderboard');
+    await loadLeaderboard();
+  }
+
+  async function loadLeaderboard() {
+    const content = document.getElementById('leaderboard-content');
+    content.innerHTML = '<div class="leaderboard-empty">loading...</div>';
+    try {
+      const res = await fetch(BASE + '/leaderboard');
+      const data = await res.json();
+      if (!data || data.length === 0) {
+        content.innerHTML = '<div class="leaderboard-empty">no players yet — play 10 games to appear.</div>';
+        return;
+      }
+      const table = document.createElement('table');
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>player</th>
+            <th>pts/game</th>
+            <th>games</th>
+            <th>points</th>
+          </tr>
+        </thead>
+      `;
+      const tbody = document.createElement('tbody');
+      data.forEach((entry, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="rank">${i + 1}</td>
+          <td>${entry.playerName}</td>
+          <td>${entry.pointsPerGame.toFixed(2)}</td>
+          <td>${entry.totalGames}</td>
+          <td>${entry.totalPoints}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      content.innerHTML = '';
+      content.appendChild(table);
+    } catch(e) {
+      content.innerHTML = '<div class="leaderboard-empty">could not load leaderboard.</div>';
+    }
   }
 
   function updateUI(data) {
@@ -466,14 +620,13 @@
     try {
       const res = await fetch(BASE + '/startGame', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' , 'X-Session-Id': sessionId},
+        headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
         body: JSON.stringify(name)
       });
       const data = await res.json();
       gameId = data.gameID;
       document.getElementById('player-label').textContent = name.toLowerCase();
-      document.getElementById('setup').style.display = 'none';
-      document.getElementById('game').style.display = 'block';
+      showScreen('game');
       document.getElementById('winner').textContent = '';
       updateUI(data);
     } catch(e) {
@@ -510,16 +663,6 @@
     } catch(e) {
       document.getElementById('status').textContent = 'connection error';
     }
-  }
-
-  function resetGame() {
-    gameId = null;
-    dealerRunning = false;
-    document.getElementById('game').style.display = 'none';
-    document.getElementById('setup').style.display = 'block';
-    document.getElementById('player-name').value = '';
-    document.getElementById('winner').textContent = '';
-    document.getElementById('status').textContent = '';
   }
 
   document.getElementById('player-name').addEventListener('keydown', e => {

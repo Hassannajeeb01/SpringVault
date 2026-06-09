@@ -2,8 +2,6 @@ package com.example.springvault.model;
 
 import java.util.ArrayList;
 
-import org.springframework.data.repository.query.parser.Part;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Participant {

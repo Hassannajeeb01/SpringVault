@@ -2,8 +2,8 @@ package com.example.springvault.service;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +11,7 @@ import com.example.springvault.exception.GameNotFoundException;
 import com.example.springvault.model.*;
 import com.example.springvault.model.GameState.Turn;
 import com.example.springvault.model.GameState.Winner;
+import com.example.springvault.repository.LeaderboardRepository;
 
 @Service
 public class BlackJackService {
@@ -20,6 +21,9 @@ public class BlackJackService {
         public BlackJackService (RedisTemplate<String, GameState> redisTemplate) {
             this.redisTemplate = redisTemplate;
         }
+
+        @Autowired
+        private LeaderboardRepository leaderboardRepository;
 
         public GameResponseDTO startGame(String playerName, String sessionID) {
             // Initialize a player participant with player name
@@ -65,7 +69,12 @@ public class BlackJackService {
             }
             
             // update gamestate with winner if there is one
-            gameState.setWinner(analyzeGame(gameState));
+            Winner winner = analyzeGame(gameState);
+
+            // Winner declared
+            if (winner != Winner.NONE) {
+                recordResult(gameState);
+            }
 
             // if player bust on their turn, flip dealer card
             if (gameState.getWinner() == Winner.DEALER && gameState.getTurn() == Turn.PLAYER) {
@@ -74,6 +83,11 @@ public class BlackJackService {
 
             redisTemplate.opsForValue().set("Game: " + gameID, gameState);
 
+            // if a winner has been declared, add to the leaderboard
+            if (gameState.getWinner() != Winner.NONE) {
+
+            }
+
             return new GameResponseDTO(gameState);
         }
 
@@ -81,7 +95,12 @@ public class BlackJackService {
             GameState gameState = getGameState(gameID);
 
             // AnalyzeGame and update gamestate
-            gameState.setWinner(analyzeGame(gameState));
+            Winner winner = analyzeGame(gameState);
+
+            // Winner declared
+            if (winner != Winner.NONE) {
+                recordResult(gameState);
+            }
 
             // update turn
             gameState.setTurn(Turn.DEALER);
@@ -94,41 +113,71 @@ public class BlackJackService {
             return new GameResponseDTO(gameState);
         }
 
-        public Winner analyzeGame(GameState gameState) {
+        // Analyzes game, sets winner and leaderboard
+        public Winner analyzeGame(GameState gameState) { 
             // check whose turn it is
             // if player, 
                 // check if == 21, player wins
                 // if > 21 bust i.e dealer wins
+
+            Winner winner = Winner.NONE; // init winner as none (default)
+
             int playerHandValue = calculateHandValue(gameState.getPlayer());
             int dealerHandValue = calculateHandValue(gameState.getDealer());
 
             if (gameState.getTurn() == Turn.PLAYER) {
                 if (playerHandValue == 21) {
-                    return Winner.PLAYER;
+                    winner = Winner.PLAYER;
                 }
                 else if (playerHandValue > 21) {
-                    return Winner.DEALER;
+                    winner = Winner.DEALER;
                 }
                 else {
-                    return Winner.NONE;
+                    winner = Winner.NONE;
                 }
             }
             else if (gameState.getTurn() == Turn.DEALER) {
 
                 if (dealerHandValue > 21) {
-                    return Winner.PLAYER;
+                    winner = Winner.PLAYER;
                 }
                 else if (playerHandValue == dealerHandValue) {
-                    return Winner.PUSH;
+                    winner = Winner.PUSH;
                 }
                 else if (playerHandValue > dealerHandValue) {
-                    return Winner.PLAYER;
+                    winner = Winner.PLAYER;
                 }
                 else if (playerHandValue < dealerHandValue) {
-                    return Winner.DEALER;
+                    winner = Winner.DEALER;
                 }
             }
-            return Winner.NONE;
+            if (winner != Winner.NONE) { 
+                // winner is declared
+                gameState.setWinner(winner);
+            }
+
+            return winner;
+        }
+
+        private void recordResult(GameState gameState) {
+            LeaderboardEntry leaderboardEntry = leaderboardRepository.findById(gameState.getSessionID())
+                .orElse(new LeaderboardEntry(gameState.getSessionID(), gameState.getPlayer().getName()));
+            
+            leaderboardEntry.setTotalGames(leaderboardEntry.getTotalGames() +1);
+            
+            if (gameState.getWinner() == Winner.PLAYER) {
+                leaderboardEntry.setTotalPoints(leaderboardEntry.getTotalPoints() + 3);
+            } 
+            else if (gameState.getWinner() == Winner.PUSH) {
+                leaderboardEntry.setTotalPoints(leaderboardEntry.getTotalPoints() + 1);
+            } 
+            // else if winner == dealer -> do nothing, points total remains same        
+            
+            // set points per game
+            leaderboardEntry.setPointsPergame((double) leaderboardEntry.getTotalPoints() / leaderboardEntry.getTotalGames());
+
+            // save
+            leaderboardRepository.save(leaderboardEntry);
         }
 
         private GameState getGameState(String gameID) {
