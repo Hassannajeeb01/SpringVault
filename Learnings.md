@@ -13,7 +13,7 @@
 - DTOs exist so you have a standard response format independent of your implementation. also does not expose implementation to world
 - Exceptions are handles using controlleradvice and custom exceptions
 - Using runtimeexception instead of plain exception makes it unchecked so it naturally bubbles up to the controlleradvice witthout try catch blocks
-- 
+- You can use @version for JPA and Redlock for redis to make sure we dont overwrite simaltanoesu requests
 
 toDO:
 - exception handling for when a gameid does not exist, controlleradvice

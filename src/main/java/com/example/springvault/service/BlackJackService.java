@@ -13,6 +13,8 @@ import com.example.springvault.model.GameState.Turn;
 import com.example.springvault.model.GameState.Winner;
 import com.example.springvault.repository.LeaderboardRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class BlackJackService {
         // private final ConcurrentHashMap<String, GameState> games = new ConcurrentHashMap<>(); // String is gameID
@@ -159,7 +161,8 @@ public class BlackJackService {
             return winner;
         }
 
-        private void recordResult(GameState gameState) {
+        @Transactional
+        void recordResult(GameState gameState) {
             LeaderboardEntry leaderboardEntry = leaderboardRepository.findById(gameState.getSessionID())
                 .orElse(new LeaderboardEntry(gameState.getSessionID(), gameState.getPlayer().getName()));
             
