@@ -10,12 +10,15 @@ import com.example.springvault.model.LeaderboardDTO;
 import com.example.springvault.model.LeaderboardEntry;
 import com.example.springvault.repository.LeaderboardRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class LeaderboardService {
     
     @Autowired
     LeaderboardRepository leaderboardRepository;
 
+    @Transactional
     public List<LeaderboardDTO> getLeaderboard() {
 
         // get the leaderbord entries
