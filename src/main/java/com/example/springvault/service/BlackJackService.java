@@ -65,7 +65,7 @@ public class BlackJackService {
             }
             else {
                 // logic for dealer hitting
-                if (gameState.getDealer().getHandValue() < 17 ) {
+                if (gameState.getDealer().getHandValueWithAceLogic() < 17 ) {
                     gameState.getDealer().addCard(gameState.getDeck().drawCard());
                 } 
             }
@@ -124,8 +124,9 @@ public class BlackJackService {
 
             Winner winner = Winner.NONE; // init winner as none (default)
 
-            int playerHandValue = calculateHandValue(gameState.getPlayer());
-            int dealerHandValue = calculateHandValue(gameState.getDealer());
+            // int playerHandValue = calculateHandValue(gameState.getPlayer());
+            int playerHandValue = gameState.getPlayer().getHandValueWithAceLogic();
+            int dealerHandValue = gameState.getDealer().getHandValueWithAceLogic();
 
             if (gameState.getTurn() == Turn.PLAYER) {
                 if (playerHandValue == 21) {

@@ -469,10 +469,6 @@
     cards.forEach(c => el.appendChild(makeCard(c)));
   }
 
-  function visibleTotal(cards) {
-    return cards.filter(c => !c.faceDown).reduce((s, c) => s + c.value, 0);
-  }
-
   function setLoader(on) {
     document.getElementById('loader').style.display = on ? 'flex' : 'none';
   }
@@ -543,14 +539,30 @@
     }
   }
 
-  function updateUI(data) {
+  function formatHandValue(value, valueWithAce) {
+    // if (valueWithAce !== value) {
+    //     return `${valueWithAce}/${value}`;
+    // }
+    return `${valueWithAce}`;
+  } 
+
+
+  
+function updateUI(data) {
     renderHand('player-hand', data.playerCards);
     renderHand('dealer-hand', data.dealerCards);
 
-    const pv = visibleTotal(data.playerCards);
-    const dv = visibleTotal(data.dealerCards);
-    document.getElementById('player-total').textContent = pv;
-    document.getElementById('dealer-total').textContent = dv > 0 ? dv : '';
+    document.getElementById('player-total').textContent = 
+        formatHandValue(data.playerHandValue, data.playerHandValueWithAceLogic);
+    
+    const visibleCards = data.dealerCards.filter(c => !c.faceDown);
+    const hasFaceDown = data.dealerCards.some(c => c.faceDown);
+
+    const dv = hasFaceDown
+        ? visibleCards.reduce((sum, c) => sum + c.value, 0).toString()
+        : formatHandValue(data.dealerHandValue, data.dealerHandValueWithAceLogic);
+
+    document.getElementById('dealer-total').textContent = dv;
 
     const winner = data.winner;
     const turn = data.turn;
@@ -561,26 +573,26 @@
     statusEl.textContent = '';
 
     if (winner === 'PLAYER') {
-      winnerEl.textContent = 'you win.';
-      setActions(false);
-      setLoader(false);
+        winnerEl.textContent = 'you win.';
+        setActions(false);
+        setLoader(false);
     } else if (winner === 'DEALER') {
-      winnerEl.textContent = 'dealer wins.';
-      setActions(false);
-      setLoader(false);
+        winnerEl.textContent = 'dealer wins.';
+        setActions(false);
+        setLoader(false);
     } else if (winner === 'PUSH') {
-      winnerEl.textContent = "push — it's a tie.";
-      setActions(false);
-      setLoader(false);
+        winnerEl.textContent = "push — it's a tie.";
+        setActions(false);
+        setLoader(false);
     } else if (turn === 'DEALER') {
-      statusEl.textContent = "dealer's turn";
-      setActions(false);
-      setLoader(true);
-      if (!dealerRunning) runDealerTurn();
+        statusEl.textContent = "dealer's turn";
+        setActions(false);
+        setLoader(true);
+        if (!dealerRunning) runDealerTurn();
     } else {
-      statusEl.textContent = 'your turn';
-      setActions(true);
-      setLoader(false);
+        statusEl.textContent = 'your turn';
+        setActions(true);
+        setLoader(false);
     }
   }
 

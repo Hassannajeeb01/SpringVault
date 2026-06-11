@@ -78,6 +78,18 @@ public class Participant {
         return aces;
     }
 
+    @JsonIgnore
+    public int getHandValueWithAceLogic() {
+        int handValue = this.getHandValue();
+        int aces = this.getAces();
+
+        while (aces > 0 && handValue > 21) {
+            handValue = handValue - 10; // initially aces are counted as 11, subtract 10 to make it 1
+            aces --;
+        }
+
+        return handValue;
+    }
 
 }
 
