@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://acela.proxy.rlwy.net:58447/railway
+    url: postgresql://postgres:ZvmzieERRrNUQTUctLGzlpPMWwPeKFQx@acela.proxy.rlwy.net:26667/railway
     username: ${PGUSER}
     password: ${PGPASSWORD}
     driver-class-name: org.postgresql.Driver
