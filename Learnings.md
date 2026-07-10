@@ -14,6 +14,16 @@
 - Exceptions are handles using controlleradvice and custom exceptions
 - Using runtimeexception instead of plain exception makes it unchecked so it naturally bubbles up to the controlleradvice witthout try catch blocks
 - You can use @version for JPA and Redlock for redis to make sure we dont overwrite simaltanoesu requests
+- Eventual consistency, the concept where if your db writes fail you just add them to a kafka queue and execute later
+- @Transactional rolls back for unchecked excpetions, for checked ones you have to specify
+- Use this so your operations do not overwrite each other and happen atomically
+- For 2 players, you use Webscokets for two way communication
+- Runtime exception cz exception forces everything to be in a try catch whereas runtime is unchecked
+- You can use generated value to auto generate the keys
+- work on how to use Onetomany and manytoone in entities
+- Use JOIN FETCH for queries with N+1 issue, practice more on lazy vs eager loading
+- save() persists everything when the @transactional ends, saveandflush() does it for every time it is called
+- 
 
 toDO:
 - exception handling for when a gameid does not exist, controlleradvice

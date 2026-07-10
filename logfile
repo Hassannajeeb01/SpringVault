@@ -198,3 +198,141 @@
 	
 2026-06-11 18:45:26.419 PKT [37752] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
 	
+2026-06-11 22:29:31.026 PKT [37112] LOG:  checkpoint starting: time
+2026-06-11 22:29:31.154 PKT [37112] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.109 s, sync=0.002 s, total=0.130 s; sync files=2, longest=0.002 s, average=0.001 s; distance=1 kB, estimate=120 kB; lsn=0/1A6A0A0, redo lsn=0/1A6A068
+2026-06-11 22:30:29.755 PKT [49452] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.755 PKT [28136] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.755 PKT [30572] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.757 PKT [38184] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.757 PKT [48492] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.757 PKT [44340] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.757 PKT [32628] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.757 PKT [43220] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.757 PKT [41300] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:30:29.757 PKT [51208] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.786 PKT [36304] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.786 PKT [38204] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.787 PKT [34556] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.787 PKT [30132] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.787 PKT [50476] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.787 PKT [38688] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.787 PKT [13820] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.787 PKT [37344] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.787 PKT [52612] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:31:50.787 PKT [25932] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.337 PKT [47204] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.337 PKT [49584] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.338 PKT [8072] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.338 PKT [46980] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.338 PKT [12164] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.338 PKT [21236] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.338 PKT [38668] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.339 PKT [33032] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.339 PKT [49380] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:33:38.339 PKT [34664] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:34:31.158 PKT [37112] LOG:  checkpoint starting: time
+2026-06-11 22:34:31.269 PKT [37112] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.103 s, sync=0.002 s, total=0.112 s; sync files=2, longest=0.001 s, average=0.001 s; distance=1 kB, estimate=108 kB; lsn=0/1A6A750, redo lsn=0/1A6A718
+2026-06-11 22:35:00.570 PKT [32744] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.570 PKT [36896] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.571 PKT [35012] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.571 PKT [47384] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.571 PKT [6576] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.571 PKT [48612] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.571 PKT [42988] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.571 PKT [51220] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.571 PKT [43028] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:35:00.572 PKT [44088] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.132 PKT [52032] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.133 PKT [50368] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.133 PKT [47592] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.133 PKT [51408] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.133 PKT [48504] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.133 PKT [43636] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.133 PKT [41536] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.134 PKT [31288] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.134 PKT [42392] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:06.134 PKT [43976] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 22:39:31.275 PKT [37112] LOG:  checkpoint starting: time
+2026-06-11 22:39:31.396 PKT [37112] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.110 s, sync=0.004 s, total=0.122 s; sync files=2, longest=0.003 s, average=0.002 s; distance=2 kB, estimate=98 kB; lsn=0/1A6B318, redo lsn=0/1A6B2E0
+2026-06-11 22:44:31.403 PKT [37112] LOG:  checkpoint starting: time
+2026-06-11 22:44:31.518 PKT [37112] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.105 s, sync=0.003 s, total=0.116 s; sync files=2, longest=0.002 s, average=0.002 s; distance=3 kB, estimate=88 kB; lsn=0/1A6C298, redo lsn=0/1A6C260
+2026-06-11 22:49:31.520 PKT [37112] LOG:  checkpoint starting: time
+2026-06-11 22:49:31.632 PKT [37112] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.104 s, sync=0.002 s, total=0.112 s; sync files=2, longest=0.002 s, average=0.001 s; distance=4 kB, estimate=80 kB; lsn=0/1A6D298, redo lsn=0/1A6D260
+2026-06-11 23:37:01.442 PKT [42600] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.442 PKT [46108] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.441 PKT [49580] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.443 PKT [24756] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.444 PKT [32100] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.444 PKT [43364] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.444 PKT [29320] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.444 PKT [43848] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.444 PKT [50000] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-11 23:37:01.444 PKT [29180] LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-06-12 22:36:51.041 PKT [51676] LOG:  received fast shutdown request
+2026-06-12 22:36:51.044 PKT [51676] LOG:  aborting any active transactions
+2026-06-12 22:36:51.049 PKT [50472] FATAL:  terminating connection due to administrator command
+2026-06-12 22:36:51.065 PKT [51676] LOG:  background worker "logical replication launcher" (PID 34700) exited with exit code 1
+2026-06-12 22:36:51.069 PKT [37112] LOG:  shutting down
+2026-06-12 22:36:51.072 PKT [37112] LOG:  checkpoint starting: shutdown immediate
+2026-06-12 22:36:51.094 PKT [37112] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.008 s, sync=0.001 s, total=0.025 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=72 kB; lsn=0/1A6D348, redo lsn=0/1A6D348
+2026-06-12 22:36:51.110 PKT [51676] LOG:  database system is shut down

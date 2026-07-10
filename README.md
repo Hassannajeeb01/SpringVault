@@ -1,10 +1,22 @@
-# SpringVault
-A cloud-native Spring Boot application deployed on GCP Cloud Run using Workload Identity Federation and GitHub Actions CI/CD.
+# Blackjack — Spring Boot REST API
 
-Dependencies:
-    Installations:
-        Redis 5.0.14.1
-        Psql 16
+A fully deployed Blackjack game with a live leaderboard, 
+built with Spring Boot and PostgreSQL.
 
-Deployment:
-    https://springvault-production.up.railway.app/blackjack.html
+🎮 Live: https://springvault-production.up.railway.app/blackjack.html
+
+## Features
+- REST API with Spring Boot
+- PostgreSQL leaderboard with JPA
+- Global exception handling with @ControllerAdvice
+- Unit tested with JUnit 5
+- CI/CD via GitHub Actions, deployed on Railway
+
+## Tech Stack
+Java, Spring Boot, PostgreSQL, JPA, JUnit 5, Railway
+
+## Endpoints
+POST /startGame — start a new game
+POST /hit       — draw a card
+POST /stand     — end player turn
+GET  /leaderboard — top players by points per game

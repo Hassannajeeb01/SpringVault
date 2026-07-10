@@ -1,3 +1,5 @@
+dependencies/
+logfile
 HELP.md
 .gradle
 build/
