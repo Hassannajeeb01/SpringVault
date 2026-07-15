@@ -1,6 +1,5 @@
 dependencies/
 logfile
-HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar

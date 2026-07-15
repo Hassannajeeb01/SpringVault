@@ -23,10 +23,19 @@
 - work on how to use Onetomany and manytoone in entities
 - Use JOIN FETCH for queries with N+1 issue, practice more on lazy vs eager loading
 - save() persists everything when the @transactional ends, saveandflush() does it for every time it is called
+- so do the runtimeexception for trasncatinal in your code as well
+- design patterns
+- Spring used AOP proxies to intercept the method call, manage the transaction lifecyle and handle the roll back logic
+- practice some queries for spring JPA
+- restCLient and WebClient for calling APIs within a spring app
+- Authentiation in spring
 - 
 
+- 
 toDO:
-- exception handling for when a gameid does not exist, controlleradvice
+- exception handling for when a gameid does not exist, controlleradvice - DONE
+- have spring authentication implemented
+
 
 Postgres:
 - A cluster is the engine process running on a port which can host multiple DBs
