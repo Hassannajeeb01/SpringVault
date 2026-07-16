@@ -4,18 +4,22 @@ import com.example.springvault.model.Card;
 import com.example.springvault.model.GameState;
 import com.example.springvault.model.GameState.Turn;
 import com.example.springvault.model.GameState.Winner;
+import com.example.springvault.repository.LeaderboardRepository;
 import com.example.springvault.model.Participant;
 import com.example.springvault.service.BlackJackService;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BlackJackServiceTest {
 
-	RedisTemplate<String, GameState> redisTemplate = new RedisTemplate<>();
-    BlackJackService service = new BlackJackService(redisTemplate);
+	RedisTemplate<String, GameState> redisTemplate = Mockito.mock();
+	private LeaderboardRepository leaderboardRepository = Mockito.mock();
+
+    BlackJackService service = new BlackJackService(redisTemplate, leaderboardRepository);
 
     @Test
     void playerBusts_dealerWins() {

@@ -29,7 +29,7 @@
 - practice some queries for spring JPA
 - restCLient and WebClient for calling APIs within a spring app
 - Authentiation in spring
-- 
+- COnstructor injectionm is when you make a priavte object of the class and then do this.x = x in the current class constructor
 
 - 
 toDO:

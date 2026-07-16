@@ -3,7 +3,6 @@ package com.example.springvault.service;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +18,12 @@ import jakarta.transaction.Transactional;
 public class BlackJackService {
         // private final ConcurrentHashMap<String, GameState> games = new ConcurrentHashMap<>(); // String is gameID
         private final RedisTemplate<String, GameState> redisTemplate;
-        
-        public BlackJackService (RedisTemplate<String, GameState> redisTemplate) {
-            this.redisTemplate = redisTemplate;
-        }
-
-        @Autowired
         private LeaderboardRepository leaderboardRepository;
+        
+        public BlackJackService (RedisTemplate<String, GameState> redisTemplate, LeaderboardRepository leaderboardRepository) {
+            this.redisTemplate = redisTemplate;
+            this.leaderboardRepository = leaderboardRepository;
+        }
 
         public GameResponseDTO startGame(String playerName, String sessionID) {
             // Initialize a player participant with player name
