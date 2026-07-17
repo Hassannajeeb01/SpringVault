@@ -15,4 +15,10 @@ public class GlobalExceptionHandler {
     public Map<String, String> handleGameNotFound(GameNotFoundException ex) {
         return Map.of("error", ex.getMessage());
     }
+
+    @ExceptionHandler(InvalidCredentialsException .class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Map<String, String> handleUserNotFound (InvalidCredentialsException  ex) {
+        return Map.of("error", ex.getMessage());
+    }
 }

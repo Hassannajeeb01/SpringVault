@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.springvault.model.LeaderboardDTO;
-import com.example.springvault.model.LeaderboardEntry;
+import com.example.springvault.dto.LeaderboardDTO;
+import com.example.springvault.model.LeaderboardEntity;
 import com.example.springvault.repository.LeaderboardRepository;
 
 import jakarta.transaction.Transactional;
@@ -24,14 +24,14 @@ public class LeaderboardService {
     public List<LeaderboardDTO> getLeaderboard() {
 
         // get the leaderbord entries
-        List<LeaderboardEntry> entries = leaderboardRepository
+        List<LeaderboardEntity> entries = leaderboardRepository
             .findByTotalGamesGreaterThanEqualOrderByPointsPerGameDesc(1);
 
         // stream them into DTO list
 
         List<LeaderboardDTO> result = new ArrayList<>();
         
-        for (LeaderboardEntry entry : entries) {
+        for (LeaderboardEntity entry : entries) {
             result.add(new LeaderboardDTO(
                 entry.getPlayerName(),
                 entry.getTotalGames(),

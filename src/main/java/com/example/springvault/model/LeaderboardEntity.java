@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Leaderboard")
-public class LeaderboardEntry {
+public class LeaderboardEntity {
     
     @Id
     private String sessionID; // unique player
@@ -16,9 +16,9 @@ public class LeaderboardEntry {
     private int totalPoints;
     private double pointsPerGame;
 
-    public LeaderboardEntry() {} // for JPA / jackson
+    public LeaderboardEntity() {} // for JPA / jackson
 
-    public LeaderboardEntry(String sessionID, String playerName) {
+    public LeaderboardEntity(String sessionID, String playerName) {
         this.sessionID = sessionID;
         this.playerName = playerName;
         totalGames = 0;

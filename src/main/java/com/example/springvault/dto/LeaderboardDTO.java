@@ -1,4 +1,4 @@
-package com.example.springvault.model;
+package com.example.springvault.dto;
 
 public class LeaderboardDTO {
     private String playerName;

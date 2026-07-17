@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.example.springvault.dto.GameResponseDTO;
 import com.example.springvault.exception.GameNotFoundException;
 import com.example.springvault.model.*;
 import com.example.springvault.model.GameState.Turn;
@@ -162,8 +163,8 @@ public class BlackJackService {
 
         @Transactional
         void recordResult(GameState gameState) {
-            LeaderboardEntry leaderboardEntry = leaderboardRepository.findById(gameState.getSessionID())
-                .orElse(new LeaderboardEntry(gameState.getSessionID(), gameState.getPlayer().getName()));
+            LeaderboardEntity leaderboardEntry = leaderboardRepository.findById(gameState.getSessionID())
+                .orElse(new LeaderboardEntity(gameState.getSessionID(), gameState.getPlayer().getName()));
             
             leaderboardEntry.setTotalGames(leaderboardEntry.getTotalGames() +1);
             

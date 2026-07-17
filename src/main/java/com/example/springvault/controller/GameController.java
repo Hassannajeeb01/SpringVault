@@ -3,8 +3,8 @@ package com.example.springvault.controller;
 import com.example.springvault.service.LeaderboardService;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springvault.model.GameResponseDTO;
-import com.example.springvault.model.LeaderboardDTO;
+import com.example.springvault.dto.GameResponseDTO;
+import com.example.springvault.dto.LeaderboardDTO;
 import com.example.springvault.service.BlackJackService;
 
 import java.util.List;

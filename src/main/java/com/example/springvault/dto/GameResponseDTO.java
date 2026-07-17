@@ -1,7 +1,9 @@
-package com.example.springvault.model;
+package com.example.springvault.dto;
 
 import java.util.List;
 
+import com.example.springvault.model.Card;
+import com.example.springvault.model.GameState;
 import com.example.springvault.model.GameState.Turn;
 import com.example.springvault.model.GameState.Winner;
 

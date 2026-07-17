@@ -30,6 +30,8 @@
 - restCLient and WebClient for calling APIs within a spring app
 - Authentiation in spring
 - COnstructor injectionm is when you make a priavte object of the class and then do this.x = x in the current class constructor
+- git config --global core.autocrlf true -> makes line endings auto configuarable for the environment they are being used in for git, since linux and windows have different line endings
+- ok so JWT, has a header which is just the algorithm, payload whihc is e.g email + expiry time, and signature, whihc is a hash made using your service's private key
 
 - 
 toDO:

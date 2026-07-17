@@ -1,5 +1,11 @@
 spring:
   application:
     name: springVault
+  threads:
+    virtual:
+      enabled: true
   profiles:
     active: local
+jwt:
+  secret: your-long-random-secret
+  expiry: 3600000
