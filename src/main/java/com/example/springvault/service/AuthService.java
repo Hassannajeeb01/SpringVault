@@ -36,6 +36,10 @@ public class AuthService{
                                             .password(encodedPassword)
                                             .build();
         
+        if (userRepository.findByEmail(userEntity.getEmail()).isPresent()) {
+            throw new InvalidCredentialsException();
+        }
+        
         userRepository.save(userEntity);     
         return jwtUtil.generateToken(registerRequestDTO.getEmail());                      
     } 

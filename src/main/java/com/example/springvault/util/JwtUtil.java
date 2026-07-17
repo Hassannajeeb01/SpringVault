@@ -11,7 +11,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
     
-    private final String SECRET = "mySecret";
+    private final String SECRET = "mydhifADFDHajnfdjANDJKaiuodjhAIDHJashdjlAHDJHasjhdjlkAHDJak";
     private final long EXPIRY = 3600000; // one hour in ms
 
     public String generateToken(String email) {
