@@ -1,6 +1,9 @@
 package com.example.springvault.controller;
 
 import com.example.springvault.service.LeaderboardService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springvault.dto.GameResponseDTO;
@@ -12,7 +15,6 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -29,8 +31,9 @@ public class GameController {
     }
 
     @PostMapping("/startGame")
-    public GameResponseDTO startGame(@RequestBody String playerName,  @RequestHeader("X-Session-Id") String sessionId) {
-        return blackJackService.startGame(playerName, sessionId);
+    public GameResponseDTO startGame(@RequestBody String playerName, HttpServletRequest request ) {
+        String emailId = (String) request.getAttribute("email"); // get Email identifier
+        return blackJackService.startGame(playerName, emailId);
     }
 
     @PostMapping("/hit")

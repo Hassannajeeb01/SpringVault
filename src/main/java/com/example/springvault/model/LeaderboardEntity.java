@@ -9,8 +9,7 @@ import jakarta.persistence.Table;
 public class LeaderboardEntity {
     
     @Id
-    private String sessionID; // unique player
-
+    private String emailId; // unique identifier
     private String playerName;
     private int totalGames;
     private int totalPoints;
@@ -18,8 +17,8 @@ public class LeaderboardEntity {
 
     public LeaderboardEntity() {} // for JPA / jackson
 
-    public LeaderboardEntity(String sessionID, String playerName) {
-        this.sessionID = sessionID;
+    public LeaderboardEntity(String emailId, String playerName) {
+        this.emailId = emailId;
         this.playerName = playerName;
         totalGames = 0;
         totalPoints = 0;
@@ -34,12 +33,12 @@ public class LeaderboardEntity {
         this.pointsPerGame = pointsPerGame;
     }
 
-    public String getSessionID() {
-        return sessionID;
+    public String getEmailId() {
+        return emailId;
     }
 
-    public void setSessionID(String sessionID) {
-        this.sessionID = sessionID;
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
     public String getPlayerName() {

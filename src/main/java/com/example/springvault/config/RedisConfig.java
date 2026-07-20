@@ -10,7 +10,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.example.springvault.model.GameState;
 
 @Configuration
-public class RedisConfig {
+public class RedisConfig { // to set the serializer for redis
     
     @Bean
     public RedisTemplate<String, GameState> redisTemplate(RedisConnectionFactory factory) {

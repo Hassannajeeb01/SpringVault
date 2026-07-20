@@ -1,6 +1,7 @@
 package com.example.springvault.dto;
 
 public class LeaderboardDTO {
+    private String emailID;
     private String playerName;
     private int totalGames;
     private int totalPoints;
@@ -8,11 +9,20 @@ public class LeaderboardDTO {
 
     public LeaderboardDTO() {} // for jackson/redis
 
-    public LeaderboardDTO(String playerName, int totalGames, int totalPoints, double pointsPerGame) {
+    public LeaderboardDTO(String emailId, String playerName, int totalGames, int totalPoints, double pointsPerGame) {
+        this.emailID = emailId;
         this.playerName = playerName;
         this.totalGames = totalGames;
         this.totalPoints = totalPoints;
         this.pointsPerGame = pointsPerGame;
+    }
+
+    public String getEmailID() {
+        return emailID;
+    }
+
+    public void setEmailID(String emailID) {
+        this.emailID = emailID;
     }
 
     public String getPlayerName() {

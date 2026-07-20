@@ -26,7 +26,7 @@ public class BlackJackService {
             this.leaderboardRepository = leaderboardRepository;
         }
 
-        public GameResponseDTO startGame(String playerName, String sessionID) {
+        public GameResponseDTO startGame(String playerName, String emailId) {
             // Initialize a player participant with player name
             Participant player = new Participant(playerName);
 
@@ -46,7 +46,7 @@ public class BlackJackService {
 
             // init gameState, generate gameid, add it to games
             String gameID = UUID.randomUUID().toString();
-            GameState gameState = new GameState(gameID, sessionID, deck, player, dealer, Turn.PLAYER);
+            GameState gameState = new GameState(gameID, emailId, deck, player, dealer, Turn.PLAYER);
 
             // add gamestate to the games
             // games.put(gameID, gameState);
@@ -163,8 +163,8 @@ public class BlackJackService {
 
         @Transactional
         void recordResult(GameState gameState) {
-            LeaderboardEntity leaderboardEntry = leaderboardRepository.findById(gameState.getSessionID())
-                .orElse(new LeaderboardEntity(gameState.getSessionID(), gameState.getPlayer().getName()));
+            LeaderboardEntity leaderboardEntry = leaderboardRepository.findByEmailId(gameState.getEmailId())
+                .orElse(new LeaderboardEntity(gameState.getEmailId(), gameState.getPlayer().getName()));
             
             leaderboardEntry.setTotalGames(leaderboardEntry.getTotalGames() +1);
             
@@ -178,6 +178,11 @@ public class BlackJackService {
             
             // set points per game
             leaderboardEntry.setPointsPergame((double) leaderboardEntry.getTotalPoints() / leaderboardEntry.getTotalGames());
+
+            // if name has changed, reflect in leaderboard
+            if (!gameState.getPlayer().getName().equals(leaderboardEntry.getPlayerName())) {
+                leaderboardEntry.setPlayerName(gameState.getPlayer().getName());
+            }
 
             // save
             leaderboardRepository.save(leaderboardEntry);

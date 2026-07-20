@@ -32,11 +32,15 @@
 - COnstructor injectionm is when you make a priavte object of the class and then do this.x = x in the current class constructor
 - git config --global core.autocrlf true -> makes line endings auto configuarable for the environment they are being used in for git, since linux and windows have different line endings
 - ok so JWT, has a header which is just the algorithm, payload whihc is e.g email + expiry time, and signature, whihc is a hash made using your service's private key
+- for JWT, the security config is your configuration of security, it simply sets the jwtFIlter as security and then then the filter is what catches all requests and authenticates where necessary
+
 
 - 
 toDO:
 - exception handling for when a gameid does not exist, controlleradvice - DONE
-- have spring authentication implemented
+- have spring authentication implemented - Partially DONE
+- implement checking email validity, verification
+- change game saving based on email instead of sessionID
 
 
 Postgres:

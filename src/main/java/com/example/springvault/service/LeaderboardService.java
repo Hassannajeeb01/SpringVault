@@ -33,6 +33,7 @@ public class LeaderboardService {
         
         for (LeaderboardEntity entry : entries) {
             result.add(new LeaderboardDTO(
+                entry.getEmailId(),
                 entry.getPlayerName(),
                 entry.getTotalGames(),
                 entry.getTotalPoints(),
