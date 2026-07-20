@@ -84,26 +84,11 @@ public class AuthServiceTest {
       
 
         // Act
-
-        String token = loginUser(loginRequestDTO);
+        String token = authService.loginUser(loginRequestDTO);
 
 
         // Assert
         assertEquals(true, jwtUtil.isTokenValid(token));
 
     }
-
-    public String loginUser (LoginRequestDTO loginRequestDTO) {
-
-        UserEntity user = userRepository.findByEmail(loginRequestDTO.getEmail()).orElseThrow(() -> new InvalidCredentialsException());
-
-        String storedPassword = user.getPassword();
-        if (!passwordEncoder.matches(loginRequestDTO.getPassword(), storedPassword)) { // passwords do not match
-            throw new InvalidCredentialsException();
-        }
-        
-        return jwtUtil.generateToken(loginRequestDTO.getEmail());
-
-    }
-    
 }
