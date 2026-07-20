@@ -59,6 +59,8 @@
 
   .header-right {
     margin-left: auto;
+    display: flex;
+    gap: 8px;
   }
 
   .header-right button {
@@ -68,8 +70,60 @@
     font-family: 'DM Mono', monospace;
   }
 
-  /* Setup */
-  .setup { animation: fadeIn 0.3s ease; }
+  /* Auth / Setup */
+  .auth, .setup { animation: fadeIn 0.3s ease; }
+
+  .auth-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-tabs button {
+    flex: 1;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+
+  .auth-tabs button.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field-group label {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  .field-group input {
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 0 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .field-group input:focus { border-color: var(--text); }
 
   .setup label {
     display: block;
@@ -357,12 +411,36 @@
     <span>v1.0</span>
     <div class="header-right">
       <button onclick="toggleLeaderboard()">leaderboard</button>
+      <button id="logout-btn" style="display:none" onclick="logout()">logout</button>
     </div>
   </div>
 
-  <!-- Setup -->
-  <div class="setup" id="setup">
-    <label>your name</label>
+  <!-- Auth Screen -->
+  <div class="auth" id="auth">
+    <div class="auth-tabs">
+      <button id="tab-login" class="active" onclick="switchAuthTab('login')">login</button>
+      <button id="tab-register" onclick="switchAuthTab('register')">register</button>
+    </div>
+
+    <div class="auth-form">
+      <div class="field-group">
+        <label>email</label>
+        <input type="email" id="auth-email" placeholder="name@domain.com" />
+      </div>
+
+      <div class="field-group">
+        <label>password</label>
+        <input type="password" id="auth-password" placeholder="••••••••" />
+      </div>
+
+      <button class="primary" id="auth-submit-btn" onclick="handleAuthSubmit()">login</button>
+    </div>
+    <div class="error-msg" id="auth-error"></div>
+  </div>
+
+  <!-- Setup Screen -->
+  <div class="setup" id="setup" style="display:none">
+    <label>your display name</label>
     <div class="setup-row">
       <input type="text" id="player-name" placeholder="enter name" maxlength="24" />
       <button class="primary" onclick="startGame()">deal</button>
@@ -370,7 +448,7 @@
     <div class="error-msg" id="setup-error"></div>
   </div>
 
-  <!-- Game -->
+  <!-- Game Screen -->
   <div class="game" id="game">
 
     <div class="participant-section">
@@ -411,7 +489,7 @@
 
   </div>
 
-  <!-- Leaderboard -->
+  <!-- Leaderboard Screen -->
   <div class="leaderboard" id="leaderboard">
     <div class="leaderboard-header">
       <span class="leaderboard-title">leaderboard</span>
@@ -424,18 +502,108 @@
 </div>
 
 <script>
-const BASE = (window.location.hostname === 'localhost' || window.location.hostname === '')
+  const BASE = (window.location.hostname === 'localhost' || window.location.hostname === '')
     ? 'http://localhost:8080' 
     : 'https://springvault-production.up.railway.app';
+
   let gameId = null;
   let dealerRunning = false;
   let playerName = 'player';
-  let previousScreen = 'setup'; // track where to go back to
+  let authMode = 'login'; // 'login' or 'register'
+  let previousScreen = 'setup';
 
+  let jwtToken = localStorage.getItem('jwtToken');
   let sessionId = localStorage.getItem('sessionId');
   if (!sessionId) {
       sessionId = crypto.randomUUID();
       localStorage.setItem('sessionId', sessionId);
+  }
+
+  // Initial routing
+  window.addEventListener('DOMContentLoaded', () => {
+    if (jwtToken) {
+      document.getElementById('logout-btn').style.display = 'block';
+      showScreen('setup');
+    } else {
+      showScreen('auth');
+    }
+  });
+
+  // Authenticated fetch wrapper
+  async function authFetch(url, options = {}) {
+    options.headers = options.headers || {};
+    if (jwtToken) {
+      options.headers['Authorization'] = 'Bearer ' + jwtToken;
+    }
+    const res = await fetch(url, options);
+    if (res.status === 401) {
+      logout();
+      throw new Error('Unauthorized');
+    }
+    return res;
+  }
+
+  function switchAuthTab(mode) {
+    authMode = mode;
+    document.getElementById('tab-login').classList.toggle('active', mode === 'login');
+    document.getElementById('tab-register').classList.toggle('active', mode === 'register');
+    document.getElementById('auth-submit-btn').textContent = mode;
+    document.getElementById('auth-error').textContent = '';
+  }
+
+  async function handleAuthSubmit() {
+    const email = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value.trim();
+    const errorEl = document.getElementById('auth-error');
+    errorEl.textContent = '';
+
+    if (!email || !password) {
+      errorEl.textContent = 'please enter both email and password';
+      return;
+    }
+
+    const endpoint = authMode === 'register' ? '/auth/register' : '/auth/login';
+
+    try {
+      const res = await fetch(BASE + endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (!res.ok) {
+        errorEl.textContent = authMode === 'login' ? 'invalid credentials' : 'registration failed';
+        return;
+      }
+
+      // Read response as plain text token, with JSON fallback
+      let token = await res.text();
+      try {
+        const json = JSON.parse(token);
+        if (json.token) token = json.token;
+      } catch (e) {
+        // Response was raw string
+      }
+
+      jwtToken = token.trim();
+      localStorage.setItem('jwtToken', jwtToken);
+      document.getElementById('logout-btn').style.display = 'block';
+
+      // Infer player name prefix from email
+      playerName = email.split('@')[0];
+      document.getElementById('player-name').value = playerName;
+
+      showScreen('setup');
+    } catch(e) {
+      errorEl.textContent = 'could not connect to server';
+    }
+  }
+
+  function logout() {
+    jwtToken = null;
+    localStorage.removeItem('jwtToken');
+    document.getElementById('logout-btn').style.display = 'none';
+    showScreen('auth');
   }
 
   function suitSymbol(suit) {
@@ -478,9 +646,11 @@ const BASE = (window.location.hostname === 'localhost' || window.location.hostna
   }
 
   function showScreen(name) {
+    document.getElementById('auth').style.display = 'none';
     document.getElementById('setup').style.display = 'none';
     document.getElementById('game').style.display = 'none';
     document.getElementById('leaderboard').style.display = 'none';
+    if (name === 'auth') document.getElementById('auth').style.display = 'block';
     if (name === 'setup') document.getElementById('setup').style.display = 'block';
     if (name === 'game') document.getElementById('game').style.display = 'block';
     if (name === 'leaderboard') document.getElementById('leaderboard').style.display = 'block';
@@ -492,7 +662,10 @@ const BASE = (window.location.hostname === 'localhost' || window.location.hostna
       showScreen(previousScreen);
       return;
     }
-    previousScreen = document.getElementById('game').style.display === 'block' ? 'game' : 'setup';
+    if (document.getElementById('game').style.display === 'block') previousScreen = 'game';
+    else if (document.getElementById('setup').style.display === 'block') previousScreen = 'setup';
+    else previousScreen = 'auth';
+
     showScreen('leaderboard');
     await loadLeaderboard();
   }
@@ -501,7 +674,7 @@ const BASE = (window.location.hostname === 'localhost' || window.location.hostna
     const content = document.getElementById('leaderboard-content');
     content.innerHTML = '<div class="leaderboard-empty">loading...</div>';
     try {
-      const res = await fetch(BASE + '/leaderboard');
+      const res = await authFetch(BASE + '/leaderboard');
       const data = await res.json();
       if (!data || data.length === 0) {
         content.innerHTML = '<div class="leaderboard-empty">no players yet — play 10 games to appear.</div>';
@@ -540,15 +713,10 @@ const BASE = (window.location.hostname === 'localhost' || window.location.hostna
   }
 
   function formatHandValue(value, valueWithAce) {
-    // if (valueWithAce !== value) {
-    //     return `${valueWithAce}/${value}`;
-    // }
     return `${valueWithAce}`;
   } 
 
-
-  
-function updateUI(data) {
+  function updateUI(data) {
     renderHand('player-hand', data.playerCards);
     renderHand('dealer-hand', data.dealerCards);
 
@@ -602,7 +770,7 @@ function updateUI(data) {
     while (!done) {
       await new Promise(r => setTimeout(r, 900));
       try {
-        const res = await fetch(BASE + '/hit', {
+        const res = await authFetch(BASE + '/hit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json'},
           body: gameId
@@ -630,7 +798,7 @@ function updateUI(data) {
     document.getElementById('setup-error').textContent = '';
 
     try {
-      const res = await fetch(BASE + '/startGame', {
+      const res = await authFetch(BASE + '/startGame', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
         body: JSON.stringify(name)
@@ -649,7 +817,7 @@ function updateUI(data) {
   async function hit() {
     setActions(false);
     try {
-      const res = await fetch(BASE + '/hit', {
+      const res = await authFetch(BASE + '/hit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
         body: gameId
@@ -665,7 +833,7 @@ function updateUI(data) {
   async function stand() {
     setActions(false);
     try {
-      const res = await fetch(BASE + '/stand', {
+      const res = await authFetch(BASE + '/stand', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
         body: gameId
@@ -679,6 +847,9 @@ function updateUI(data) {
 
   document.getElementById('player-name').addEventListener('keydown', e => {
     if (e.key === 'Enter') startGame();
+  });
+  document.getElementById('auth-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleAuthSubmit();
   });
 </script>
 </body>
