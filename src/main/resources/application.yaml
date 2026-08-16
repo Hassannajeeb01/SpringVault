@@ -5,7 +5,7 @@ spring:
     virtual:
       enabled: true
   profiles:
-    active: local
+    active: prod
 jwt:
   secret: your-long-random-secret
   expiry: 3600000
