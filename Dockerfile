@@ -2,16 +2,16 @@
 FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
 
-# Copy configuration files first to leverage Docker layer caching for dependencies
+# Copy configuration and source files
 COPY build.gradle settings.gradle ./
 COPY gradle ./gradle
 COPY gradlew ./
-
-# Download dependencies
-RUN ./gradlew dependencies --no-daemon
-
-# Copy source code and build the application
 COPY src ./src
+
+# Grant execution permission
+RUN chmod +x gradlew
+
+# Build the application directly
 RUN ./gradlew bootJar -x test --no-daemon
 
 # Step 2: Runtime stage
