@@ -8,9 +8,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: gridwars
+      POSTGRES_DB: springvault
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: localpassword
+      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - pgdata:/var/lib/postgresql/data
 
